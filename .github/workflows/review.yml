@@ -3,7 +3,7 @@ name: Code Review
 on: pull_request
 
 jobs:
-  review:
+  Main:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Doing code review..."

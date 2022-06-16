@@ -5,7 +5,7 @@ on:
     tags: [v*]
 
 jobs:
-  review:
+  Main:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Deploying production..."
