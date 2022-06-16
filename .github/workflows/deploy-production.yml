@@ -1,0 +1,11 @@
+name: Deploy Production
+
+on:
+  push:
+    tags: [v*]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying production..."

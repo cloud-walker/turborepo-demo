@@ -1,0 +1,9 @@
+name: Code Review
+
+on: pull_request
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Doing code review..."
