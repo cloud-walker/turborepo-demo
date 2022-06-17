@@ -1,37 +1,46 @@
-export type TodoDTO = {
+import type {Jsonify} from 'type-fest'
+
+export type Todo = {
   id: string
   text: string
-  is_completed: boolean
-  created_at: string
-  updated_at: string
+  isCompleted: boolean
+  createdAt: Date
+  updatedAt: Date
 }
+export type TodoDTO = Jsonify<Todo>
 
-export type GetTodoDTO = {
-  path_params: Pick<TodoDTO, 'id'>
-  response: TodoDTO
-}
-
-export type GetTodosDTO = {
-  search_params: {quantity: number; page?: number}
+export type GetTodos = {
+  searchParams: {limit?: number; offset?: number}
   response: {
-    items: TodoDTO[]
-    page: number
-    total_count: number
+    items: Todo[]
+    limit: number
+    offset: number
+    totalCount: number
   }
 }
+export type GetTodosDTO = Jsonify<GetTodos>
 
-export type CreateTodoDTO = {
-  body: Pick<TodoDTO, 'text'>
-  response: TodoDTO
+export type GetTodo = {
+  pathParams: Pick<Todo, 'id'>
+  response: Todo
 }
+export type GetTodoDTO = Jsonify<GetTodo>
 
-export type PutTodoDTO = {
-  path_params: Pick<TodoDTO, 'id'>
-  body: Pick<TodoDTO, 'text' | 'is_completed'>
-  response: TodoDTO
+export type CreateTodo = {
+  body: Pick<Todo, 'text'>
+  response: Todo
 }
+export type CreateTodoDTO = Jsonify<CreateTodo>
 
-export type DeleteTodoDTO = {
-  path_params: Pick<TodoDTO, 'id'>
+export type PutTodo = {
+  pathParams: Pick<Todo, 'id'>
+  body: Partial<Pick<Todo, 'text' | 'isCompleted'>>
+  response: Todo
+}
+export type PutTodoDTO = Jsonify<PutTodo>
+
+export type DeleteTodo = {
+  pathParams: Pick<Todo, 'id'>
   response: void
 }
+export type DeleteTodoDTO = Jsonify<DeleteTodo>

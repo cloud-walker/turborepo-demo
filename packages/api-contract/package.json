@@ -5,6 +5,7 @@
   "main": "./main.ts",
   "types": "./main.ts",
   "dependencies": {
+    "type-fest": "^2.13.1",
     "typescript": "^4.7.3"
   }
 }

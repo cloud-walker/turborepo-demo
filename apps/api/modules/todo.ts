@@ -1,26 +1,28 @@
 import {v4 as uuid} from 'uuid'
-
-type Todo = {
-  id: string
-  createdAt: Date
-  updatedAt: Date
-  text: string
-  isCompleted: boolean
-}
+import type {
+  Todo,
+  GetTodos,
+  GetTodo,
+  PutTodo,
+  CreateTodo,
+  DeleteTodo,
+} from 'api-contract'
 
 const todos: Todo[] = []
 
 export function getTodos({
   limit = 10,
   offset = 0,
-}: {
-  limit?: number
-  offset?: number
-}) {
-  return todos.slice(offset, limit)
+}: GetTodos['searchParams']): GetTodos['response'] {
+  return {
+    items: todos.slice(offset, limit),
+    limit,
+    offset,
+    totalCount: todos.length,
+  }
 }
 
-export function getTodoById({id}: {id: Todo['id']}) {
+export function getTodoById({id}: GetTodo['pathParams']): GetTodo['response'] {
   const todo = todos.find(t => t.id == id)
 
   if (todo == null) {
@@ -30,15 +32,11 @@ export function getTodoById({id}: {id: Todo['id']}) {
   return todo
 }
 
-export function updateTodoById({
+export function putTodoById({
   id,
   text,
   isCompleted,
-}: {
-  id: Todo['id']
-  text?: Todo['text']
-  isCompleted?: Todo['isCompleted']
-}) {
+}: PutTodo['pathParams'] & PutTodo['body']): PutTodo['response'] {
   const todo = todos.find(t => t.id == id)
 
   if (todo == null) {
@@ -55,7 +53,7 @@ export function updateTodoById({
   return todo
 }
 
-export function createTodo({text}: {text: Todo['text']}) {
+export function createTodo({text}: CreateTodo['body']): CreateTodo['response'] {
   const todo: Todo = {
     id: uuid(),
     text,
@@ -69,7 +67,9 @@ export function createTodo({text}: {text: Todo['text']}) {
   return todo
 }
 
-export function deleteTodoById({id}: {id: Todo['id']}) {
+export function deleteTodoById({
+  id,
+}: DeleteTodo['pathParams']): DeleteTodo['response'] {
   const index = todos.findIndex(t => t.id == id)
 
   if (index == -1) {
@@ -78,3 +78,6 @@ export function deleteTodoById({id}: {id: Todo['id']}) {
 
   todos.splice(index, 1)
 }
+
+createTodo({text: 'Fare la spesa'})
+createTodo({text: 'Mettere benzina'})
