@@ -15,7 +15,9 @@ export function getTodos({
   offset = 0,
 }: GetTodos['searchParams']): GetTodos['response'] {
   return {
-    items: todos.slice(offset, limit),
+    items: [...todos]
+      .sort((a, b) => +b.createdAt - +a.createdAt)
+      .slice(offset, limit),
     limit,
     offset,
     totalCount: todos.length,
@@ -23,7 +25,7 @@ export function getTodos({
 }
 
 export function getTodoById({id}: GetTodo['pathParams']): GetTodo['response'] {
-  const todo = todos.find(t => t.id == id)
+  const todo = todos.find((t) => t.id == id)
 
   if (todo == null) {
     throw Error('Not Found')
@@ -37,7 +39,7 @@ export function putTodoById({
   text,
   isCompleted,
 }: PutTodo['pathParams'] & PutTodo['body']): PutTodo['response'] {
-  const todo = todos.find(t => t.id == id)
+  const todo = todos.find((t) => t.id == id)
 
   if (todo == null) {
     throw Error('Not Found')
@@ -70,7 +72,7 @@ export function createTodo({text}: CreateTodo['body']): CreateTodo['response'] {
 export function deleteTodoById({
   id,
 }: DeleteTodo['pathParams']): DeleteTodo['response'] {
-  const index = todos.findIndex(t => t.id == id)
+  const index = todos.findIndex((t) => t.id == id)
 
   if (index == -1) {
     throw Error('Not Found')
