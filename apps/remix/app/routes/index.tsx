@@ -1,6 +1,7 @@
 import type {GetTodosDTO} from 'api-contract'
 import type {ActionFunction, LoaderFunction} from '@remix-run/node'
-import {Form, useLoaderData} from '@remix-run/react'
+import {Form, useLoaderData, useTransition} from '@remix-run/react'
+import {useEffect, useRef} from 'react'
 
 type LoaderData = GetTodosDTO['response']
 
@@ -32,10 +33,22 @@ export const action: ActionFunction = async ({request}) => {
 
 export default function Index() {
   const data = useLoaderData<LoaderData>()
+  const formRef = useRef<HTMLFormElement>(null)
+  const mountedRef = useRef(false)
+  const transition = useTransition()
+
+  useEffect(() => {
+    if (mountedRef.current && transition.state == 'idle') {
+      formRef.current?.reset()
+    }
+
+    mountedRef.current = true
+  }, [transition.state])
+
   return (
     <>
       <h1>todos</h1>
-      <Form method="post">
+      <Form replace method="post" ref={formRef}>
         <input type="text" name="text" />
         <button type="submit">Add todo</button>
       </Form>
