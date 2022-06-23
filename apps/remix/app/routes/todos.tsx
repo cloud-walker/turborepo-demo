@@ -79,11 +79,16 @@ export default function Index() {
 
   return (
     <>
-      <h1>todos</h1>
+      <h1 className="text-3xl underline">todos</h1>
 
       <Form replace method="post" ref={formRef}>
         <input type="text" name="text" />
-        <button type="submit" name="_action" value="post">
+        <button
+          type="submit"
+          name="_action"
+          value="post"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4"
+        >
           Add todo
         </button>
       </Form>
