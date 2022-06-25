@@ -2,6 +2,7 @@ import type {GetTodosDTO} from 'api-contract'
 import type {ActionFunction, LoaderFunction} from '@remix-run/node'
 import {Form, useLoaderData, useSubmit, useTransition} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
+import {Button} from '~/modules/Button'
 
 type LoaderData = GetTodosDTO['response']
 
@@ -77,16 +78,16 @@ export default function Index() {
   }, [transition.state])
 
   return (
-    <div className="h-full grid grid-rows-[auto_1fr_auto]">
+    <div className="h-full grid grid-rows-[auto_1fr_auto] gap-4">
       <h1 className="py-2 px-4 text-3xl border-b-2">todos</h1>
 
-      <ul>
+      <ul className="justify-self-center flex flex-col gap-4">
         {data.items.map((item) => (
-          <li key={item.id} style={{display: 'flex', gap: '1rem'}}>
+          <li key={item.id} className="flex justify-between items-center gap-2">
             <Form method="post">
               <input type="hidden" name="_action" value="put" />
               <input type="hidden" name="id" value={item.id} />
-              <label>
+              <label className="flex gap-2 items-center">
                 <input
                   type="checkbox"
                   name="isCompleted"
@@ -103,24 +104,24 @@ export default function Index() {
 
             <Form method="post" replace>
               <input type="hidden" name="id" value={item.id} />
-              <button type="submit" name="_action" value="delete">
+              <Button type="submit" name="_action" value="delete">
                 x
-              </button>
+              </Button>
             </Form>
           </li>
         ))}
       </ul>
 
-      <Form replace method="post" ref={formRef}>
+      <Form
+        replace
+        method="post"
+        ref={formRef}
+        className="place-self-center pb-4"
+      >
         <input type="text" name="text" className="border py-2 px-4" />
-        <button
-          type="submit"
-          name="_action"
-          value="post"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4"
-        >
+        <Button type="submit" name="_action" value="post">
           Add todo
-        </button>
+        </Button>
       </Form>
     </div>
   )
