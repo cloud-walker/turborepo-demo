@@ -77,7 +77,7 @@ export default function Index() {
   }, [transition.state])
 
   return (
-    <div className="grid">
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
       <h1 className="py-2 px-4 text-3xl border-b-2">todos</h1>
 
       <ul>
