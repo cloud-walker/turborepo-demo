@@ -1,6 +1,5 @@
 import type {GetTodosDTO} from 'api-contract'
 import type {ActionFunction, LoaderFunction} from '@remix-run/node'
-import {redirect} from '@remix-run/node'
 import {Form, useLoaderData, useSubmit, useTransition} from '@remix-run/react'
 import {useEffect, useRef} from 'react'
 
@@ -30,7 +29,7 @@ export const action: ActionFunction = async ({request}) => {
       throw res
     }
 
-    return redirect('/')
+    return null
   }
 
   if (_action == 'delete') {
@@ -44,7 +43,7 @@ export const action: ActionFunction = async ({request}) => {
       throw res
     }
 
-    return redirect('/')
+    return null
   }
 
   if (_action == 'put') {
@@ -58,7 +57,7 @@ export const action: ActionFunction = async ({request}) => {
       throw res
     }
 
-    return redirect('/')
+    return null
   }
 }
 
@@ -78,23 +77,11 @@ export default function Index() {
   }, [transition.state])
 
   return (
-    <>
-      <h1 className="text-3xl underline">todos</h1>
-
-      <Form replace method="post" ref={formRef}>
-        <input type="text" name="text" />
-        <button
-          type="submit"
-          name="_action"
-          value="post"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4"
-        >
-          Add todo
-        </button>
-      </Form>
+    <div className="grid">
+      <h1 className="py-2 px-4 text-3xl border-b-2">todos</h1>
 
       <ul>
-        {data.items.map(item => (
+        {data.items.map((item) => (
           <li key={item.id} style={{display: 'flex', gap: '1rem'}}>
             <Form method="post">
               <input type="hidden" name="_action" value="put" />
@@ -103,7 +90,7 @@ export default function Index() {
                 <input
                   type="checkbox"
                   name="isCompleted"
-                  onChange={e => {
+                  onChange={(e) => {
                     submit(e.currentTarget.form, {replace: true})
                   }}
                   checked={item.isCompleted}
@@ -124,7 +111,17 @@ export default function Index() {
         ))}
       </ul>
 
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </>
+      <Form replace method="post" ref={formRef}>
+        <input type="text" name="text" className="border py-2 px-4" />
+        <button
+          type="submit"
+          name="_action"
+          value="post"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4"
+        >
+          Add todo
+        </button>
+      </Form>
+    </div>
   )
 }
