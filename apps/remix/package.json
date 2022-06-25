@@ -10,6 +10,7 @@
     "dev": "run-p dev:*",
     "dev:css": "tailwindcss -w -o ./app/styles/tailwind.css",
     "dev:remix": "remix dev",
+    "dev:ladle": "ladle serve",
     "start": "remix-serve build"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@ladle/react": "^1.2.0",
     "@remix-run/dev": "^1.6.0",
     "@remix-run/eslint-config": "^1.6.0",
     "@types/react": "^18.0.14",
